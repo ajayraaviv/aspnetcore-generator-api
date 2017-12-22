@@ -1,0 +1,21 @@
+version:  '3.2'
+
+services:
+  my-registry:
+    image:  stefanscherer/registry-windows
+    volumes:
+      - type: bind
+        source: C:\registry
+        target: C:\registry
+    ports:
+      - "55000:5000"
+    restart:  unless-stopped
+
+volumes:
+  registry:
+
+networks:
+  default:
+    external:
+      name: nat
+

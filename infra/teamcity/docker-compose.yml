@@ -1,0 +1,33 @@
+version:  '3.2'
+
+services:
+  teamcity:
+    image:  jetbrains/teamcity-server:latest-nanoserver
+    volumes:
+      - type: bind
+        source: D:\Workspaces\DockerProjects\CIExample\aspnetcore-generator-api\infra\teamcity\data
+        target: C:\ProgramData\JetBrains\TeamCity
+      - type: bind
+        source: D:\Workspaces\DockerProjects\CIExample\aspnetcore-generator-api\infra\teamcity\logs
+        target: C:\TeamCity\logs
+    ports:
+      - 8111:8111
+
+  teamcity-agent:
+    image:  jetbrains/teamcity-agent:latest-nanoserver
+    environment:
+      SERVER_URL: http://teamcity:8111
+    volumes:
+      - type: bind
+        source: D:\Workspaces\DockerProjects\CIExample\aspnetcore-generator-api\infra\teamcity\conf
+        target: C:\BuildAgent\conf
+
+volumes:
+  data:
+  logs:
+  conf:
+
+networks:
+  default:
+    external:
+      name: nat
